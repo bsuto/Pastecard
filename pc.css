@@ -1,0 +1,12 @@
+body { font: 14px "lucida grande", sans-serif; color: #000; background-color: #fafafa; text-align: center; }
+#pc { margin: 8px auto; width: 300px; height: 450px; padding: 4px; text-align: left; border: 1px solid #ccc; background-color: #fff; overflow: hidden; }
+#pc:hover { border: 1px solid #aaa; }
+#edit { display: none; }
+#editable { width: 304px; height: 454px; font: 14px "lucida grande", sans-serif; background-color: #fff; border: 1px solid #666; }
+input { background-color: #eee;  font-size: 14px; }
+
+@media only screen and (max-device-width: 480px) {
+body { font: 20px "helvetica neue", sans-serif; }
+#pc { width: 294px; height: 374px; }
+#editable { width: 294px; height: 374px; font: 20px "helvetica neue", sans-serif; }
+}
