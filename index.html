@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <!-- tells browsers to cache the javascript and css locally -->
 <html manifest="cache.manifest">
@@ -20,8 +20,8 @@
 
 <body>
 
-  <!-- the card, blank to start -->
-  <div id="pc" onclick="edit()"></div>
+  <!-- the card, with a loading message to start -->
+  <div id="pc" onclick="edit()"><b>Loading&hellip;</b></div>
 
   <!-- the editable text area and two action buttons -->
   <div id="edit">
@@ -30,7 +30,7 @@
     <input type="button" value="cancel" onclick="cleanUp()"/>
   </div>
 
-  <!-- command to fill the blank card with the text content -->
+  <!-- finally, load the saved text into the card view -->
   <script type="text/javascript">load();</script>
 
 </body>
