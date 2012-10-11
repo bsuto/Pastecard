@@ -1,8 +1,8 @@
 CACHE MANIFEST
-eip.js
-pc.css
+pastecard.js
+styles.css
 
 NETWORK:
 *
 
-# Version 1.2
+# Version 1.2.1
