@@ -55,21 +55,28 @@ function load() {
       // stop trying to contact the server
       hget.abort();
 
-      // take pastecard offline and, if installed, use locally-saved text (plus br tags)
+      // take pastecard offline and, if installed, use locally-saved text
       online = false;
       if (installed()) {
         var localText = localStorage["pc"];
+
+	// convert line breaks to br tags
         localText = localText.replace(/\n/g,'<br>\n');
+
+	// if no text, force-draw an empty card
+	if (localText == '') { localText = '&nbsp;'; }
+
         d('pc').innerHTML = localText;
       }
     }
   }
 
   else {
-    // if not online, use text from local storage and add br tags
+    // if not online, use text from local storage
     if (installed()) {
       var localText = localStorage["pc"];
       localText = localText.replace(/\n/g,'<br>\n');
+      if (localText == '') { localText = '&nbsp;'; }
       d('pc').innerHTML = localText;
     }
   }
@@ -162,9 +169,12 @@ function save() {
       // revert the card to what the user tried to save
       d('pc').innerHTML = emergencyText;
 
-      // throw an error message and unlock the card
+      // throw an error message
       alert('There was a server error. Please try saving again. Sorry!');
+
+      // unlock the card and put it back in edit mode
       online = true;
+      edit();
     }
 
   // send the new text and a random number to bust caches

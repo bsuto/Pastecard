@@ -10,6 +10,7 @@ Once Pastecard is loaded in your browser, click or tap the card to make it edita
 Running an instance of Pastecard on your own server is as easy as downloading this Github repository as a .zip, and then uploading the whole directory as-is to your server. Just navigate to the directory in a browser to start using Pastecard.
 
 ## Version History
+* 1.2.1 - October 11, 2012: iPhone 5 compatibility and bugfixes from 1.2
 * 1.2 - June 22, 2012: Greatly improved loading and saving stability
 * 1.1.2 - October 25, 2011: Fixed cache bugs introduced in iOS 5
 * 1.1.1 - August 20, 2011: Now strips Apple data detector HTML when editing cards 
