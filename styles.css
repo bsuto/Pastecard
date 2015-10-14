@@ -1,16 +1,15 @@
-body { font: 14px "lucida grande", sans-serif; color: #000; background-color: #fafafa; text-align: center; }
-#pc { margin: 8px auto; width: 300px; height: 450px; padding: 4px; text-align: left; border: 1px solid #ccc; background-color: #fff; overflow: hidden; }
-#pc:hover { border: 1px solid #aaa; }
+body { font: 18px -apple-system, roboto, sans-serif; color: #000; background-color: #fafafa; text-align: center; height: 100%; }
+#pc { margin: 8px auto; width: 300px; height: 450px; padding: 4px; text-align: left; border: 1px solid #aaa; border-top: 2px solid #004080; background-color: #fff; overflow: hidden; }
+#pc:hover { border: 1px solid #888; border-top: 2px solid #004080; }
 #edit { display: none; }
-#editable { width: 304px; height: 454px; font: 14px "lucida grande", sans-serif; background-color: #fff; border: 1px solid #666; }
-input { background-color: #eee;  font-size: 14px; }
+textarea { width: 300px; height: 450px; padding: 4px; font: 18px -apple-system, roboto, sans-serif; background-color: #fff; border: 1px solid #666; border-top: 2px solid #004080; overflow: scroll; }
+input { background-color: #eee; font-size: 16px; }
 
-@media only screen and (max-device-width: 480px) {
-body { font: 20px "helvetica neue", sans-serif; }
-#pc { width: 294px; height: 374px; }
-#editable { width: 294px; height: 374px; font: 20px "helvetica neue", sans-serif; }
-}
-
-@media (device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) {
-#pc, #editable { height: 400px; }
+@media only screen and (max-device-width: 763px) {
+html, body, #edit { height: 100%; }
+body { font: 20px -apple-system, roboto, sans-serif; }
+#pc { display: block; width: 90%; height: 80%; padding: 4px; }
+textarea, input { -webkit-appearance: none; -webkit-border-radius: 0; }
+textarea { width: 90%; height: 80%; padding: 4px; font: 20px -apple-system, roboto, sans-serif; }
+input { background-color: #fff; font-size: 18px; line-height: 18px; color: #666; padding: 6px 12px; border: none; }
 }

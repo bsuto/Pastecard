@@ -4,12 +4,14 @@ http://pastecard.net
 ## About
 Pastecard is the digital equivalent on the back of your hand. It's available wherever you have an Internet connection, including your phone. The advantage is you can just erase it when you don't need it anymore, instead of washing your hand or throwing away another sticky note.
 
-## Usage
-Once Pastecard is loaded in your browser, click or tap the card to make it editable. You can then save your changes or cancel the edit. Try out [a demo card](http://pastecard.net/demo/) (edits are lost on refresh) or [view the help page](http://pastecard.net/help/).
-
-Running an instance of Pastecard on your own server is as easy as downloading this Github repository as a .zip, and then uploading the whole directory as-is to your server. Just navigate to the directory in a browser to start using Pastecard.
+To use, download this repository as a .zip and then upload the whole directory as-is to your host. Open it in your browser, click or tap the card to make it editable, and save the changes (or cancel). There's a [demo card](http://pastecard.net/demo/) (edits are lost on refresh) and a fuller [help page](http://pastecard.net/help/) for more information. Enjoy!
 
 ## Version History
+* 1.2.6 - October 13, 2015: Support for Apple and Google system fonts
+* 1.2.5 - November 13, 2014: Support for iPhone 6 and 6+
+* 1.2.4 - October 28, 2013: iOS 7.0.3 compatibility
+* 1.2.3 - September 18, 2013: iOS 7 compatibility
+* 1.2.2 - August 27, 2013: Redesign for iOS 7
 * 1.2.1 - October 11, 2012: iPhone 5 compatibility and bugfixes from 1.2
 * 1.2 - June 22, 2012: Greatly improved loading and saving stability
 * 1.1.2 - October 25, 2011: Fixed cache bugs introduced in iOS 5
