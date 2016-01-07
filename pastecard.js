@@ -1,182 +1,174 @@
 // function shortener to save space
 var d = function(id){ return document.getElementById(id); }
 
-// variable to detect connectivity
-var online = new Boolean(true);
-
-// detect if installed to iphone or ipod touch
+// check if installed to iPhone or iPod touch home screen
 function installed() {
-  if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) && (window.navigator.standalone)) { return true; }
-  else { return false; }
+	if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) && (window.navigator.standalone)) { return true; }
+	else { return false; }
 }
 
-// when the page loads in the browser
+// variables for later!
+var locked = false;
+var emergencyCard = '';
+var emergencyTextArea = '';
+var loadAjax = new XMLHttpRequest();
+var saveAjax = new XMLHttpRequest();
+
+function loadFailure() {
+
+	// kill the load request if it was sent
+	if (navigator.onLine) { loadAjax.abort(); }
+
+	// lock the card
+	locked = true;
+
+	if (installed()) {
+		// get the last-saved text to the device
+		var localText = localStorage["pastecard"];
+
+		// fix line breaks and render the card (empty if necessary)
+		localText = localText.replace(/\n/g,'<br>\n');
+		d('pc').innerHTML = localText;
+		if (localText == '') { d('pc').innerHTML = '&nbsp;'; }
+
+	} else {
+		// throw an alert if online
+		alert('Loading error! Please refresh the page and try again. Sorry!');
+	}
+}
+
 function load() {
+	if (navigator.onLine) {
 
-  // define the online variable for the rest of the session
-  online = window.navigator.onLine;
+		// prepare the load request, with a random number for cache busting
+		loadAjax.open('GET', 'output.txt?' + Math.random(), true);
+		loadAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-  // if online, get the card text from the server
-  if (online) {
-      
-    var hget = new XMLHttpRequest();
+		// when the response comes back, kill the timeout
+		loadAjax.onreadystatechange=function() {
+			if (loadAjax.readyState == 4 && loadAjax.status == 200) {
+				clearTimeout(loadTimeout);
 
-    // append a random number to the GET request to bust caches
-    hget.open('GET', 'output.txt?' + Math.random(), true);
+				var gotText = loadAjax.responseText;
 
-    // handle the text coming back from the server
-    hget.onreadystatechange=function() {
-      if (hget.readyState == 4 && hget.status == 200) {
+				// save the new text locally if installed
+				if (installed()) { localStorage["pastecard"] = gotText; }
 
-        // cancel the timeout function and save the text
-        clearTimeout(hgetTimeout); 
-        var gotText = hget.responseText;
+				// fix line breaks and render the card (empty if necessary)
+				gotText = gotText.replace(/\n/g,'<br>\n');
+				d('pc').innerHTML = gotText;
+				if (gotText == '') { d('pc').innerHTML = '&nbsp;'; }
+			}
+		}
 
-        // might as well save it locally if possible
-        if (installed()) { localStorage["pc"] = gotText; }
+		// set the timeout and start the load request
+		var loadTimeout = setTimeout(loadFailure,5000);
+		loadAjax.send();
 
-        // replace new lines with br tags
-        gotText = gotText.replace(/\n/g,'<br>\n');
+	}
 
-        // if no text, force-draw an empty card
-        if (gotText == '') { gotText = '&nbsp;'; }
-
-        // render the card
-        d('pc').innerHTML = gotText;
-      }
-    }
-
-    hget.send();
-
-    // what to do if the server times out within five seconds
-    var hgetTimeout = setTimeout(getTimeout,5000);
-    function getTimeout() {
-
-      // stop trying to contact the server
-      hget.abort();
-
-      // take pastecard offline and, if installed, use locally-saved text
-      online = false;
-      if (installed()) {
-        var localText = localStorage["pc"];
-
-	// convert line breaks to br tags
-        localText = localText.replace(/\n/g,'<br>\n');
-
-	// if no text, force-draw an empty card
-	if (localText == '') { localText = '&nbsp;'; }
-
-        d('pc').innerHTML = localText;
-      }
-    }
-  }
-
-  else {
-    // if not online, use text from local storage
-    if (installed()) {
-      var localText = localStorage["pc"];
-      localText = localText.replace(/\n/g,'<br>\n');
-      if (localText == '') { localText = '&nbsp;'; }
-      d('pc').innerHTML = localText;
-    }
-  }
+	// if not online, skip straight to load failure
+	else { loadFailure(); }
 }
 
 function edit() {
-  // if user is online and can write
-  if (online) {
+	if (!locked) {
 
-    // decode and remove HTML junk
-    var oldText = d('pc').innerHTML;
-    oldText = oldText.replace(/<br>/g,'');
-    oldText = oldText.replace(/&gt;/g,'>');
-    oldText = oldText.replace(/&lt;/g,'<');
-    oldText = oldText.replace(/&amp;/g,'&');
-    oldText = oldText.replace(/&nbsp;/g,'');
-    oldText = oldText.replace(/<a\b[^>]*>/i,'');
-    oldText = oldText.replace(/<\/a>/i,'');
+		// take the text from the div and save it for an emergency
+		var oldText = d('pc').innerHTML;
+		emergencyCard = oldText;
 
-    // fill the editable text field with the card content
-    d('editable').value = oldText;
+		// de-HTML a bunch of symbols
+		oldText = oldText.replace(/<br>/g,'');
+		oldText = oldText.replace(/&gt;/g,'>');
+		oldText = oldText.replace(/&lt;/g,'<');
+		oldText = oldText.replace(/&amp;/g,'&');
+		oldText = oldText.replace(/&nbsp;/g,'');
 
-    // hide the card
-    d('pc').style.display = 'none';
+		// remove Apple data detectors
+		oldText = oldText.replace(/<a\b[^>]*>/i,'');
+		oldText = oldText.replace(/<\/a>/i,'');
 
-    // show the text field and action buttons
-    d('edit').style.display = 'block';
+		// put the text in the textarea
+		d('editable').value = oldText;
 
-    // focus on the text field so you can type right away
-    d('editable').focus();
-  }
+		// hide the div, show the textarea and buttons
+		d('pc').style.display = 'none';
+		d('edit').style.display = 'block';
+
+		// make the textarea active
+		d('editable').focus();
+	}
 }
 
-// hide the text field and action buttons, show the card
+// hide the textarea and buttons, show the div
 function cleanUp() {
-  d('edit').style.display = 'none';
-  d('pc').style.display = 'block';
+	d('edit').style.display = 'none';
+	d('pc').style.display = 'block';
+}
+
+function saveFailure() {
+	// kill the save request
+	saveAjax.abort();
+
+	// set the div and textarea to their emergency reserves
+	d('pc').innerHTML = emergencyCard;
+	d('editable').value = emergencyTextArea;
+
+	// turn on edit mode without doing all the string replacements
+	d('pc').style.display = 'none';
+	d('edit').style.display = 'block';
+	locked = false;
+
+	// throw an alert
+	alert('Saving Error! Please try saving again. Sorry!');
+
+	// make the textarea active
+	d('editable').focus();
 }
 
 function save() {
-  // lock the card by pretending to be offline
-  online = false;
+	// lock the card
+	locked = true;
 
-  // save the new text that the user entered and encode it for safety
-  var newText = d('editable').value;
-  newText = encodeURIComponent(newText);
+	// get the new text and save it for an emergency
+	var newText = d('editable').value;
+	emergencyTextArea = newText;
 
-  // also save a version in case the server times out
-  var emergencyText = d('editable').value;
-  emergencyText = emergencyText.replace(/\n/g,'<br>\n');
+	// prepare the text to be sent to the save file
+	newText = encodeURIComponent(newText);
 
-  // show a temporary loading message and clean up
-  d('pc').innerHTML = '<b>Saving&hellip;</b>';
-  cleanUp();
+	// show a progress message in the div, hide the textarea and buttons
+	d('pc').innerHTML = '<strong>Saving&hellip;</strong>';
+	cleanUp();
 
-  // prepare an ajax request to edit.php with the new text and listen for it back
-  var hpost = new XMLHttpRequest();
-  hpost.open('POST', 'edit.php', true);
-  hpost.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  hpost.onreadystatechange = function() { 
-    if(hpost.readyState == 4 && hpost.status == 200) { 
+	// prepare the save request
+	saveAjax.open('POST', 'edit.php', true);
+	saveAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-      // when text comes back, cancel the timeout and decode it
-      clearTimeout(hpostTimeout); 
-      var retText = hpost.responseText;
-      retText = decodeURIComponent(retText);
+	// when the request comes back, kill the timeout
+	saveAjax.onreadystatechange = function() {
+		if (saveAjax.readyState == 4 && saveAjax.status == 200) {
+			clearTimeout(saveTimeout);
 
-      // save it locally too if installed
-      if (installed()) { localStorage["pc"] = retText; }
+			// get the text back and decode it
+			var retText = saveAjax.responseText;
+			retText = decodeURIComponent(retText);
 
-      // add br tags
-      retText = retText.replace(/\n/g,'<br>\n');
+			// if installed, save it locally
+			if (installed()) { localStorage["pastecard"] = retText; }
 
-      // if no text, force-draw an empty card
-      if (retText == '') { retText = '&nbsp;'; }
+			// fix line breaks and render the card (empty if necessary)
+			retText = retText.replace(/\n/g,'<br>\n');
+			d('pc').innerHTML = retText;
+			if (retText == '') { d('pc').innerHTML = '&nbsp;'; }
 
-      // update the card with the new text and unlock it
-      d('pc').innerHTML = retText;
-      online = true;
-    }
-  }
+			// unlock the card
+			locked = false;
+		}
+	}
 
-  // again, what to do if the server times out within five seconds
-    var hpostTimeout = setTimeout(postTimeout,5000);
-    function postTimeout() {
-
-      // stop trying to contact the server
-      hpost.abort();
-
-      // revert the card to what the user tried to save
-      d('pc').innerHTML = emergencyText;
-
-      // throw an error message
-      alert('There was a server error. Please try saving again. Sorry!');
-
-      // unlock the card and put it back in edit mode
-      online = true;
-      edit();
-    }
-
-  // send the new text and a random number to bust caches
-  hpost.send('card=' + newText + '&t=' + Math.random());
+	// set the timeout and start the save request, with a random number for cache busting
+	var saveTimeout = setTimeout(saveFailure,5000);
+	saveAjax.send('card=' + newText + '&t=' + Math.random());
 }
