@@ -27,9 +27,9 @@ function loadFailure() {
 		var localText = localStorage["pastecard"];
 
 		// fix line breaks and render the card (empty if necessary)
-		localText = localText.replace(/\n/g,'<br>\n');
+		if (localStorage["pastecard"]) { localText = localStorage["pastecard"].replace(/\n/g,'<br>\n'); }
+		else { localText = '&nbsp;'; }
 		d('pc').innerHTML = localText;
-		if (localText == '') { d('pc').innerHTML = '&nbsp;'; }
 
 	} else {
 		// throw an alert if online
@@ -55,9 +55,9 @@ function load() {
 				if (installed()) { localStorage["pastecard"] = gotText; }
 
 				// fix line breaks and render the card (empty if necessary)
-				gotText = gotText.replace(/\n/g,'<br>\n');
+				if (gotText) { gotText = gotText.replace(/\n/g,'<br>\n'); }
+				else { gotText = '&nbsp;'; }
 				d('pc').innerHTML = gotText;
-				if (gotText == '') { d('pc').innerHTML = '&nbsp;'; }
 			}
 		}
 
@@ -159,9 +159,9 @@ function save() {
 			if (installed()) { localStorage["pastecard"] = retText; }
 
 			// fix line breaks and render the card (empty if necessary)
-			retText = retText.replace(/\n/g,'<br>\n');
+			if (retText) { retText = retText.replace(/\n/g,'<br>\n'); }
+			else { retText = '&nbsp;'; }
 			d('pc').innerHTML = retText;
-			if (retText == '') { d('pc').innerHTML = '&nbsp;'; }
 
 			// unlock the card
 			locked = false;
