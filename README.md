@@ -7,6 +7,7 @@ Pastecard is the digital equivalent on the back of your hand. It's available whe
 To use, download this repository as a .zip and then upload the whole directory as-is to your host. Open it in your browser, click or tap the card to make it editable, and save the changes (or cancel). There's a [demo card](http://pastecard.net/demo/) (edits are lost on refresh) and a fuller [help page](http://pastecard.net/help/) for more information. Enjoy!
 
 ## Version History
+* 1.3.2 - October 5, 2016: Now strips http from URLs for security rules
 * 1.3.1 - January 8, 2016: Fixed empty card offline bug
 * 1.3 - January 7, 2016: Backend rewrite
 * 1.2.6 - October 13, 2015: Support for Apple and Google system fonts

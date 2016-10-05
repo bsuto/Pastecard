@@ -33,7 +33,7 @@ function loadFailure() {
 
 	} else {
 		// throw an alert if online
-		alert('Loading error! Please refresh the page and try again. Sorry!');
+		alert('Sorry, there was a problem loading your text. Refresh the page and try again?');
 	}
 }
 
@@ -79,15 +79,15 @@ function edit() {
 		emergencyCard = oldText;
 
 		// de-HTML a bunch of symbols
-		oldText = oldText.replace(/<br>/g,'');
-		oldText = oldText.replace(/&gt;/g,'>');
-		oldText = oldText.replace(/&lt;/g,'<');
-		oldText = oldText.replace(/&amp;/g,'&');
-		oldText = oldText.replace(/&nbsp;/g,'');
+		oldText = oldText.replace(/<br>/gi,'');
+		oldText = oldText.replace(/&gt;/gi,'>');
+		oldText = oldText.replace(/&lt;/gi,'<');
+		oldText = oldText.replace(/&amp;/gi,'&');
+		oldText = oldText.replace(/&nbsp;/gi,'');
 
 		// remove Apple data detectors
-		oldText = oldText.replace(/<a\b[^>]*>/i,'');
-		oldText = oldText.replace(/<\/a>/i,'');
+		oldText = oldText.replace(/<a\b[^>]*>/gi,'');
+		oldText = oldText.replace(/<\/a>/gi,'');
 
 		// put the text in the textarea
 		d('editable').value = oldText;
@@ -121,7 +121,7 @@ function saveFailure() {
 	locked = false;
 
 	// throw an alert
-	alert('Saving Error! Please try saving again. Sorry!');
+	alert('Sorry, there was a problem saving your text. Try again?');
 
 	// make the textarea active
 	d('editable').focus();
@@ -131,8 +131,9 @@ function save() {
 	// lock the card
 	locked = true;
 
-	// get the new text and save it for an emergency
+	// get the new text, strip http from URLs, and save it for an emergency
 	var newText = d('editable').value;
+	newText = newText.replace(/https?\:\/\//gi, '');
 	emergencyTextArea = newText;
 
 	// prepare the text to be sent to the save file
