@@ -133,7 +133,7 @@ function save() {
 
 	// get the new text, strip http from URLs, and save it for an emergency
 	var newText = d('editable').value;
-	newText = newText.replace(/https?\:\/\//gi, '');
+	newText = newText.replace(/https?\:\/\//gi,'');
 	emergencyTextArea = newText;
 
 	// prepare the text to be sent to the save file
