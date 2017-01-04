@@ -8,7 +8,7 @@ function installed() {
 }
 
 // variables for later!
-var locked = false;
+var locked = true;
 var emergencyCard = '';
 var emergencyTextArea = '';
 var loadAjax = new XMLHttpRequest();
@@ -58,6 +58,9 @@ function load() {
 				if (gotText) { gotText = gotText.replace(/\n/g,'<br>\n'); }
 				else { gotText = '&nbsp;'; }
 				d('pc').innerHTML = gotText;
+
+				// unlock the card
+				locked = false;
 			}
 		}
 
