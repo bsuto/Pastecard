@@ -1,9 +1,13 @@
 // function shortener to save space
 var d = function(id){ return document.getElementById(id); }
 
-// check if installed to iPhone or iPod touch home screen
 function installed() {
-	if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) && (window.navigator.standalone)) { return true; }
+	// check if installed on iOS home screen
+	if ((navigator.userAgent.match(/iPhone|iPod|iPad/i)) && (window.navigator.standalone)) { return true; }
+
+	// check if installed on Android home screen
+	else if ((navigator.userAgent.match(/Android/i)) && (window.matchMedia('(display-mode: standalone)').matches)) { return true; }
+
 	else { return false; }
 }
 
@@ -16,14 +20,14 @@ var saveAjax = new XMLHttpRequest();
 
 function loadFailure() {
 
-	// kill the load request if it was sent
+	// if online, make sure the load request is stopped
 	if (navigator.onLine) { loadAjax.abort(); }
 
 	// lock the card
 	locked = true;
 
 	if (installed()) {
-		// get the last-saved text to the device
+		// get text saved on device
 		var localText = localStorage["pastecard"];
 
 		// fix line breaks and render the card (empty if necessary)
@@ -32,7 +36,7 @@ function loadFailure() {
 		d('pc').innerHTML = localText;
 
 	} else {
-		// throw an alert if online
+		// throw an alert
 		alert('Sorry, there was a problem loading your text. Refresh the page and try again?');
 	}
 }
@@ -44,9 +48,11 @@ function load() {
 		loadAjax.open('GET', 'output.txt?' + Math.random(), true);
 		loadAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-		// when the response comes back, kill the timeout
+		// when the response comes back successfully
 		loadAjax.onreadystatechange=function() {
 			if (loadAjax.readyState == 4 && loadAjax.status == 200) {
+
+				// kill the timeout
 				clearTimeout(loadTimeout);
 
 				var gotText = loadAjax.responseText;
@@ -104,8 +110,8 @@ function edit() {
 	}
 }
 
-// hide the textarea and buttons, show the div
 function cleanUp() {
+	// hide the textarea and buttons, show the div
 	d('edit').style.display = 'none';
 	d('pc').style.display = 'block';
 }
@@ -150,9 +156,11 @@ function save() {
 	saveAjax.open('POST', 'edit.php', true);
 	saveAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-	// when the request comes back, kill the timeout
+	// when the request comes back successfully
 	saveAjax.onreadystatechange = function() {
 		if (saveAjax.readyState == 4 && saveAjax.status == 200) {
+
+			// kill the timeout
 			clearTimeout(saveTimeout);
 
 			// get the text back and decode it
