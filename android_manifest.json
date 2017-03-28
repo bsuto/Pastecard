@@ -1,0 +1,15 @@
+{
+  "short_name": "Pastecard",
+  "name": "Pastecard",
+  "icons": [
+    {
+      "src": "touchicon.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    }
+  ],
+  "background_color": "#fafafa",
+  "theme_color": "#004080",
+  "display": "standalone",
+  "orientation": "portrait"
+}

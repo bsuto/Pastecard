@@ -9,7 +9,7 @@ input { background-color: #eee; font-size: 16px; }
 html, body, #edit { height: 100%; }
 body { font: 20px -apple-system, roboto, sans-serif; }
 #pc { display: block; width: 90%; height: 80%; padding: 4px; }
-textarea, input { -webkit-appearance: none; -webkit-border-radius: 0; }
+textarea, input { -webkit-appearance: none; border-radius: 0; }
 textarea { width: 90%; height: 80%; padding: 4px; font: 20px -apple-system, roboto, sans-serif; }
 input { background-color: #fff; font-size: 18px; line-height: 18px; color: #666; padding: 6px 12px; border: none; }
 }
