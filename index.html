@@ -5,18 +5,18 @@
 
 <head>
 
-  <meta charset="utf-8"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
   <title>Pastecard</title>
-  <meta name="robots" content="noindex"/>
-  <link rel="stylesheet" href="styles.css" type="text/css"/>
+  
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css" type="text/css">
   <script src="pastecard.js" type="text/javascript"></script>
 
   <!-- home screen app meta tags -->
-  <meta name="viewport" content="initial-scale=1.0"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-  <link rel="manifest" href="android_manifest.json"/>
-  <link rel="apple-touch-icon" href="touchicon.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="android_manifest.json">
+  <link rel="apple-touch-icon" href="touchicon.png">
 
 </head>
 
@@ -27,9 +27,9 @@
 
   <!-- the editable text area and two action buttons -->
   <div id="edit">
-    <textarea id="editable" rows="15" cols="10" maxlength="1034"></textarea><br/>
-    <input type="button" value="Cancel" onclick="cleanUp()"/>
-    <input type="button" value="Save" onclick="save()"/>
+    <textarea id="editable" rows="15" cols="10" maxlength="1034"></textarea><br>
+    <input type="button" value="Cancel" onclick="cleanUp()">
+    <input type="button" value="Save" onclick="save()">
   </div>
 
   <!-- finally, load the saved text into the card view -->
