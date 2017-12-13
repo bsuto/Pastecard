@@ -1,4 +1,5 @@
-body { font: 18px/22px -apple-system, roboto, sans-serif; color: #000; background-color: #fafafa; text-align: center; height: 100%; }
+html { height: 100%; }
+body { height: 100%; font: 18px/22px -apple-system, roboto, sans-serif; color: #000; background: linear-gradient(to bottom, #fff 0%, #fafafa 10%); text-align: center; }
 #pc { margin: 16px auto; width: 300px; height: 450px; padding: 4px; text-align: left; border: 1px solid #aaa; border-top: 4px solid #004080; background-color: #fff; overflow: hidden; }
 #pc:hover { border: 1px solid #888; border-top: 4px solid #004080; }
 #edit { display: none; }
@@ -7,9 +8,9 @@ input { background-color: #fff; color: #004080; font-size: 16px; line-height: 16
 input:active { background-color: #eee; }
 
 @media only screen and (max-device-width: 763px) {
-html, body, #edit { height: 100%; }
 body { font: 20px/24px -apple-system, roboto, sans-serif; }
 #pc { display: block; width: 90%; height: 80%; padding: 4px; }
+#edit { height: 100%; }
 textarea { width: 90%; height: 80%; padding: 4px; font: 20px/24px -apple-system, roboto, sans-serif; border-radius: 0; }
 input { font-size: 18px; line-height: 18px; }
 textarea, input { -webkit-appearance: none; }
