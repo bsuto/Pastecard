@@ -1,17 +1,67 @@
-html { height: 100%; }
-body { height: 100%; font: 18px/22px -apple-system, BlinkMacSystemFont, roboto, sans-serif; color: #000; background: linear-gradient(to bottom, #fff 0%, #fafafa 10%); text-align: center; }
-#pc { margin: 16px auto; width: 300px; height: 450px; padding: 4px; text-align: left; border: 1px solid #aaa; border-top: 4px solid #004080; background-color: #fff; overflow: hidden; }
-#pc:hover { border: 1px solid #888; border-top: 4px solid #004080; }
-#edit { display: none; }
-textarea { margin: 8px auto; width: 300px; height: 450px; padding: 4px; font: 18px/22px -apple-system, BlinkMacSystemFont, roboto, sans-serif; background-color: #fff; border: 1px solid #888; border-top: 4px solid #004080; overflow: scroll; }
-input { background-color: #fff; color: #004080; font-size: 16px; line-height: 16px; border-radius: 4px; border: 1px solid #ddd; padding: 6px 24px; margin: 12px 24px; }
-input:active { background-color: #eee; }
+body {
+	color: #000;
+	background-color: #fafafa;
+	text-align: center;
+}
+
+textarea {
+	margin: 16px auto;
+	width: 300px;
+	height: 450px;
+	padding: 4px;
+	font: 18px / 22px -apple-system, BlinkMacSystemFont, roboto, sans-serif;
+	background-color: #fff;
+	border: 1px solid #aaa;
+	border-top: 8px solid #004080;
+	overflow: scroll;
+}
+
+textarea:hover {
+	border: 1px solid #888;
+	border-top: 8px solid #004080;
+}
+
+#buttons {
+	display: none;
+}
+
+input {
+	background-color: #fff;
+	color: #004080;
+	font-size: 18px;
+	line-height: 18px;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	padding: 6px 24px;
+	margin: 0 24px;
+}
+
+input:active {
+	background-color: #eee;
+}
 
 @media only screen and (max-width: 736px) {
-body { font-size: 20px; line-height: 24px; }
-#pc { display: block; width: 90%; height: 80%; padding: 4px; }
-#edit { height: 100%; }
-textarea { width: 90%; height: 80%; padding: 4px; font-size: 20px; line-height: 24px; border-radius: 0; }
-input { font-size: 18px; line-height: 18px; }
-textarea, input { -webkit-appearance: none; }
+	html, body {
+		height: 100%;
+	}
+
+	body {
+		background: linear-gradient(to bottom, #fff 0%, #fafafa 10%);
+		font-size: 1.2em;
+		line-height: 1.2em;
+	}
+
+	textarea {
+		width: 90%;
+		max-width: 400px;
+		height: 80%;
+		max-height: 600px;
+		font-size: 1em;
+		line-height: 1.2em;
+		border-radius: 0;
+	}
+
+	textarea, input {
+		-webkit-appearance: none;
+	}
 }

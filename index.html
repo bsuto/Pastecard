@@ -1,12 +1,10 @@
 <!doctype html>
-
-<!-- caches the javascript and css locally -->
-<html manifest="cache.manifest">
+<html lang="en">
 
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pastecard</title>
   
   <meta name="robots" content="noindex">
@@ -16,7 +14,7 @@
   <!-- home screen app meta tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="manifest" href="android_manifest.json">
+  <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="touchicon.png">
 
 </head>
@@ -24,14 +22,20 @@
 <body>
 
   <!-- the card, with a loading message to start -->
-  <div id="pc" onclick="edit()"><strong>Loading&hellip;</strong></div>
+  <textarea id="pastecard" maxlength="1034" onclick="edit()" readonly="true">Loading&hellip;</textarea>
 
-  <!-- the editable text area and two action buttons -->
-  <div id="edit">
-    <textarea id="editable" maxlength="1034"></textarea><br>
-    <input type="button" value="Cancel" onclick="cleanUp()">
+  <!-- the two action buttons -->
+  <div id="buttons">
+    <input type="button" value="Cancel" onclick="cancel()">
     <input type="button" value="Save" onclick="save()">
   </div>
+
+  <!-- register the service worker to cache files offline -->
+  <script>
+    if ('serviceWorker' in navigator) { 
+      navigator.serviceWorker.register('sw.js').then(function(reg){}); 
+    }
+  </script>
 
   <!-- finally, load the saved text into the card view -->
   <script>load();</script>

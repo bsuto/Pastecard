@@ -1,5 +1,9 @@
-// function shortener to save space
-var d = function(id){ return document.getElementById(id); }
+var d = function(id) { return document.getElementById(id); } // function shortener to save space
+var locked = true;
+var emergencySave = '';
+var cancelText = '';
+var loadAjax = new XMLHttpRequest();
+var saveAjax = new XMLHttpRequest();
 
 function installed() {
 	// check if installed on iOS home screen
@@ -11,29 +15,16 @@ function installed() {
 	else { return false; }
 }
 
-// variables for later!
-var locked = true;
-var emergencyCard = '';
-var emergencyTextArea = '';
-var loadAjax = new XMLHttpRequest();
-var saveAjax = new XMLHttpRequest();
-
 function loadFailure() {
 
 	// if online, make sure the load request is stopped
 	if (navigator.onLine) { loadAjax.abort(); }
 
-	// lock the card
-	locked = true;
-
 	if (installed()) {
-		// get text saved on device
-		var localText = localStorage["pastecard"];
-
-		// fix line breaks and render the card (empty if necessary)
-		if (localStorage["pastecard"]) { localText = localStorage["pastecard"].replace(/\n/g,'<br>\n'); }
-		else { localText = '&nbsp;'; }
-		d('pc').innerHTML = localText;
+		// use text saved on device
+		var localText = '';
+		if (localStorage["pastecard"]) { localText = localStorage["pastecard"]; }
+		d('pastecard').value = localText;
 
 	} else {
 		// throw an alert
@@ -55,25 +46,20 @@ function load() {
 				// kill the timeout
 				clearTimeout(loadTimeout);
 
+				// save the text locally if installed
 				var gotText = loadAjax.responseText;
-
-				// save the new text locally if installed
 				if (installed()) { localStorage["pastecard"] = gotText; }
 
-				// fix line breaks and render the card (empty if necessary)
-				if (gotText) { gotText = gotText.replace(/\n/g,'<br>\n'); }
-				else { gotText = '&nbsp;'; }
-				d('pc').innerHTML = gotText;
-
-				// unlock the card
+				// put it in the card, unlock it, and enable typing
+				d('pastecard').value = gotText;
 				locked = false;
+				d('pastecard').readOnly = false;
 			}
 		}
 
 		// set the timeout and start the load request
-		var loadTimeout = setTimeout(loadFailure,5000);
+		var loadTimeout = setTimeout(loadFailure, 5000);
 		loadAjax.send();
-
 	}
 
 	// if not online, skip straight to load failure
@@ -81,76 +67,52 @@ function load() {
 }
 
 function edit() {
-	if (!locked) {
-
-		// take the text from the div and save it for an emergency
-		var oldText = d('pc').innerHTML;
-		emergencyCard = oldText;
-
-		// de-HTML a bunch of symbols
-		oldText = oldText.replace(/<br>/gi,'');
-		oldText = oldText.replace(/&gt;/gi,'>');
-		oldText = oldText.replace(/&lt;/gi,'<');
-		oldText = oldText.replace(/&amp;/gi,'&');
-		oldText = oldText.replace(/&nbsp;/gi,'');
-
-		// remove Apple data detectors
-		oldText = oldText.replace(/<a\b[^>]*>/gi,'');
-		oldText = oldText.replace(/<\/a>/gi,'');
-
-		// put the text in the textarea
-		d('editable').value = oldText;
-
-		// hide the div, show the textarea and buttons
-		d('pc').style.display = 'none';
-		d('edit').style.display = 'block';
-
-		// make the textarea active
-		d('editable').focus();
+	var buttonsDisplay = d('buttons').style.display;
+	if (locked == false && (buttonsDisplay == '' || 'none')) {
+		cancelText = d('pastecard').value;
+		d('buttons').style.display = 'block';
+		d('pastecard').focus();
 	}
 }
 
-function cleanUp() {
-	// hide the textarea and buttons, show the div
-	d('edit').style.display = 'none';
-	d('pc').style.display = 'block';
+function cancel() {
+	d('pastecard').value = cancelText;
+	d('buttons').style.display = 'none';
 }
 
 function saveFailure() {
 	// kill the save request
 	saveAjax.abort();
 
-	// set the div and textarea to their emergency reserves
-	d('pc').innerHTML = emergencyCard;
-	d('editable').value = emergencyTextArea;
-
-	// turn on edit mode without doing all the string replacements
-	d('pc').style.display = 'none';
-	d('edit').style.display = 'block';
-	locked = false;
+	// restore the attempted save text
+	d('pastecard').value = emergencySave;
 
 	// throw an alert
 	alert('Sorry, there was a problem saving your text. Try again?');
 
-	// make the textarea active
-	d('editable').focus();
+	// show the buttons again, unlock the card, and enable typing
+	d('buttons').style.display = 'block';
+	locked = false;
+	d('pastecard').readOnly = false;
+	d('pastecard').focus();
 }
 
 function save() {
-	// lock the card
-	locked = true;
-
 	// get the new text, strip http from URLs, and save it for an emergency
-	var newText = d('editable').value;
+	var newText = d('pastecard').value;
 	newText = newText.replace(/https?\:\/\//gi,'');
-	emergencyTextArea = newText;
+	emergencySave = newText;
+
+	// lock the card, disable typing, and hide buttons
+	locked = true;
+	d('pastecard').readOnly = true;
+	d('buttons').style.display = 'none';
+
+	// show a progress message
+	d('pastecard').value = 'Saving…';
 
 	// prepare the text to be sent to the save file
 	newText = encodeURIComponent(newText);
-
-	// show a progress message in the div, hide the textarea and buttons
-	d('pc').innerHTML = '<strong>Saving&hellip;</strong>';
-	cleanUp();
 
 	// prepare the save request
 	saveAjax.open('POST', 'edit.php', true);
@@ -170,17 +132,14 @@ function save() {
 			// if installed, save it locally
 			if (installed()) { localStorage["pastecard"] = retText; }
 
-			// fix line breaks and render the card (empty if necessary)
-			if (retText) { retText = retText.replace(/\n/g,'<br>\n'); }
-			else { retText = '&nbsp;'; }
-			d('pc').innerHTML = retText;
-
-			// unlock the card
+			// render and unlock the card, and enable typing
+			d('pastecard').value = retText;
 			locked = false;
+                        d('pastecard').readOnly = false;
 		}
 	}
 
 	// set the timeout and start the save request, with a random number for cache busting
-	var saveTimeout = setTimeout(saveFailure,5000);
+	var saveTimeout = setTimeout(saveFailure, 5000);
 	saveAjax.send('card=' + newText + '&t=' + Math.random());
 }
