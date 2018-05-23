@@ -64,6 +64,11 @@ function load() {
 
 	// if not online, skip straight to load failure
 	else { loadFailure(); }
+
+	// be ready to prevent a readonly textarea from focusing
+	d('pastecard').addEventListener('mousedown', function(event) {
+		if (locked) { event.preventDefault(); }
+	}, false);
 }
 
 function edit() {
