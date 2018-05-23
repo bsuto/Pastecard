@@ -67,11 +67,17 @@ function load() {
 }
 
 function edit() {
-	var buttonsDisplay = d('buttons').style.display;
-	if (locked == false && (buttonsDisplay == '' || 'none')) {
-		cancelText = d('pastecard').value;
-		d('buttons').style.display = 'block';
-		d('pastecard').focus();
+	if (navigator.onLine) {
+		var buttonsDisplay = d('buttons').style.display;
+		if (locked == false && (buttonsDisplay == '' || 'none')) {
+			cancelText = d('pastecard').value;
+			d('buttons').style.display = 'block';
+			d('pastecard').focus();
+		}
+	} else {
+		// if lost connection
+		locked = true;
+		alert('Sorry, the internet connection dropped. Refresh the page and try again?');
 	}
 }
 
