@@ -1,4 +1,4 @@
-var cacheVersion = '2.5';
+var cacheVersion = '2.5.1';
 
 // add the files to the cache
 self.addEventListener('install', event => {
