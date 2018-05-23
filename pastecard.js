@@ -75,9 +75,7 @@ function edit() {
 			d('pastecard').focus();
 		}
 	} else {
-		// if lost connection
 		locked = true;
-		alert('Sorry, the internet connection dropped. Refresh the page and try again?');
 	}
 }
 

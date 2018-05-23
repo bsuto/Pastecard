@@ -5,7 +5,7 @@
     {
       "src": "touchicon.png",
       "type": "image/png",
-      "sizes": "152x152"
+      "sizes": "180x180"
     }
   ],
   "background_color": "#fafafa",
