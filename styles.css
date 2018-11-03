@@ -80,7 +80,8 @@ textarea, input {
 	}
 
 	textarea:hover {
-		border-color: #555;
+		border: 1px solid #555;
+		border-top: 8px solid #004080;
 	}
 
 	input {
