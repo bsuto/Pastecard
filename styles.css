@@ -1,5 +1,4 @@
 body {
-	color: #000;
 	background-color: #fafafa;
 	margin: 0;
 	text-align: center;
@@ -11,6 +10,7 @@ textarea {
 	height: 450px;
 	padding: 4px;
 	font: 18px / 22px -apple-system, BlinkMacSystemFont, roboto, sans-serif;
+	color: #000;
 	background-color: #fff;
 	border: 1px solid #aaa;
 	border-top: 8px solid #004080;
@@ -66,4 +66,30 @@ textarea, input {
 		border-radius: 0;
 	}
 
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #000;
+	}
+
+	textarea {
+		color: #eee;
+		background-color: #111;
+		border-color: #444;
+	}
+
+	textarea:hover {
+		border-color: #555;
+	}
+
+	input {
+		color: #ddd;
+		background-color: #111;
+		border-color: #555;
+	}
+
+	input:active {
+		background-color: #222;
+	}
 }
