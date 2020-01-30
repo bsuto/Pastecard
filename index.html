@@ -30,15 +30,15 @@
     <input type="button" value="Save" onclick="save()">
   </div>
 
-  <!-- register the service worker to cache files offline -->
   <script>
+    <!-- load the saved text into the card view -->
+    load();
+
+    <!-- register the service worker to cache files offline -->
     if ('serviceWorker' in navigator) { 
       navigator.serviceWorker.register('sw.js').then(function(reg){}); 
     }
   </script>
-
-  <!-- finally, load the saved text into the card view -->
-  <script>load();</script>
 
 </body>
 
