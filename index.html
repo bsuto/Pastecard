@@ -31,13 +31,11 @@
   </div>
 
   <script>
-    <!-- load the saved text into the card view -->
+    // load the saved text into the card view
     load();
 
-    <!-- register the service worker to cache files offline -->
-    if ('serviceWorker' in navigator) { 
-      navigator.serviceWorker.register('sw.js').then(function(reg){}); 
-    }
+    // register the service worker to cache files offline
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').then(function(reg){}); }
   </script>
 
 </body>
