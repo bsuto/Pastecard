@@ -107,9 +107,8 @@ function saveFailure() {
 }
 
 function save() {
-	// get the new text, strip http from URLs, and save it for an emergency
+	// get the new text and save it for an emergency
 	var newText = d('pastecard').value;
-	newText = newText.replace(/https?\:\/\//gi,'');
 	emergencySave = newText;
 
 	// lock the card, disable typing, and hide buttons
