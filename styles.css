@@ -10,46 +10,47 @@ body {
 
 textarea, input {
 	-webkit-appearance: none;
+	font-size: 18px;
 }
 
 textarea {
-	margin: 36px auto;
-	width: 300px;
-	height: 450px;
-	padding: 4px;
-	font: 18px / 22px -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", sans-serif;
+	margin: 2rem auto;
+	width: 18rem;
+	height: 25rem;
+	padding: 0.25rem;
+	font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", sans-serif;
+	line-height: 1.25rem;
 	color: #111;
 	background-color: #fafafa;
 	border: none;
-	border-top: 18px solid #004080;
+	border-top: 1rem solid #004080;
 	border-radius: 0;
-	box-shadow: 0 0 6px #aaa;
+	box-shadow: 0 0 0.33rem #aaa;
 	overflow: scroll;
 }
 
 textarea:hover {
-	box-shadow: 0 0 6px #888;
+	box-shadow: 0 0 0.33rem #888;
 }
 
 textarea:focus {
 	outline: none;
-	box-shadow: 0 0 6px #444;
+	box-shadow: 0 0 0.33rem #444;
 }
 
 input[type=button] {
 	background-color: #fff;
 	color: #004080;
-	font-size: 18px;
-	line-height: 18px;
+	line-height: 1rem;
 	font-weight: 700;
-	border-radius: 12px;
-	border: 2px solid #004080;
-	padding: 6px 24px;
-	margin: 0 24px;
+	border-radius: 0.75rem;
+	border: 0.2rem solid #004080;
+	padding: 0.5rem 1.75rem;
+	margin: 0 1.5rem;
 }
 
 input[type=button]:active {
-	background-color: #fafafa;
+	background-color: #eee;
 }
 
 @media only screen and (max-width: 736px) {
@@ -59,9 +60,9 @@ input[type=button]:active {
 
 	textarea {
 		width: 90%;
-		max-width: 400px;
+		max-width: 20rem;
 		height: 75%;
-		max-height: 600px;
+		max-height: 33rem;
 	}
 
 }
@@ -74,15 +75,15 @@ input[type=button]:active {
 	textarea {
 		color: #ddd;
 		background-color: #1e1e1e;
-		box-shadow: 0 0 4px #777;
+		box-shadow: 0 0 0.25rem #777;
 	}
 
 	textarea:hover {
-		box-shadow: 0 0 4px #999;
+		box-shadow: 0 0 0.25rem #999;
 	}
 
 	textarea:focus {
-		box-shadow: 0 0 4px #ccc;
+		box-shadow: 0 0 0.25rem #ccc;
 	}
 
 	input[type=button] {
