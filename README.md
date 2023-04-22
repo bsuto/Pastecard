@@ -4,4 +4,4 @@ Pastecard is the digital equivalent of the back of your hand. It's accessible wi
 
 There's a [sample card](https://pastecard.net/demo/) (edits are lost on refresh) and a fuller [help page](https://pastecard.net/help/) for more information.
 
-Sign up for a hosted account at [pastecard.net](https://pastecard.net) or upload this repository as-is to your own hosting provider (SSL required).
+Sign up for a hosted account at [pastecard.net](https://pastecard.net) or upload this repository as-is to your own hosting provider (SSL and PHP 5 required).
