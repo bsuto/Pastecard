@@ -2,6 +2,7 @@ body {
 	background-color: #fff;
 	margin: 0;
 	text-align: center;
+	border-top: 1rem solid #004080;
 }
 
 #buttons {
@@ -56,6 +57,7 @@ input[type=button]:active {
 @media only screen and (max-width: 736px) {
 	html, body {
 		height: 100%;
+		border: none;
 	}
 
 	textarea {
