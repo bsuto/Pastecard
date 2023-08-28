@@ -35,8 +35,7 @@ textarea:hover {
 
 textarea:focus {
 	outline: none;
-	border: 1px solid #fcfcfc;
-	background-color: #fcfcfc;
+	border: 1px solid #ddd;
 }
 
 input[type=button] {
@@ -69,7 +68,6 @@ input[type=button]:active {
 
 	textarea:hover, textarea:focus {
 		border: 1px solid #fff;
-		background-color: #fff;
 	}
 }
 
@@ -90,8 +88,7 @@ input[type=button]:active {
 	}
 
 	textarea:focus {
-		border: 1px solid #101010;
-		background-color: #101010;
+		border: 1px solid #2c2c2c;
 	}
 
 	input[type=button] {
