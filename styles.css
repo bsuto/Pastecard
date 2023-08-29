@@ -27,6 +27,7 @@ textarea {
 	border-radius: 0;
 	resize: none;
 	overflow: scroll;
+	transition: border 250ms ease-out;
 }
 
 textarea:hover {
