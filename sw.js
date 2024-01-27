@@ -1,4 +1,4 @@
-const cacheVersion = '1.7.2';
+const cacheVersion = '1.7.3';
 
 // add the files to the cache
 self.addEventListener('install', event => {

@@ -2,8 +2,8 @@ var d = function(id) { return document.getElementById(id); } // function shorten
 var locked = true;
 var emergencySave = '';
 var cancelText = '';
-var loadAjax = new XMLHttpRequest();
-var saveAjax = new XMLHttpRequest();
+var loadXHR = new XMLHttpRequest();
+var saveXHR = new XMLHttpRequest();
 
 function installed() {
 	// check if installed on iOS home screen
@@ -18,7 +18,7 @@ function installed() {
 function loadFailure() {
 
 	// if online, make sure the load request is stopped
-	if (navigator.onLine) { loadAjax.abort(); }
+	if (navigator.onLine) { loadXHR.abort(); }
 
 	if (installed()) {
 		// use text saved on device
@@ -36,30 +36,26 @@ function load() {
 	if (navigator.onLine) {
 
 		// prepare the load request, with a random number for cache busting
-		loadAjax.open('GET', 'output.txt?' + Math.random(), true);
-		loadAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		loadXHR.open('GET', 'output.txt?' + Math.random(), true);
+		loadXHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        loadXHR.timeout = 5000;
 
 		// when the response comes back successfully
-		loadAjax.onreadystatechange=function() {
-			if (loadAjax.readyState == 4 && loadAjax.status == 200) {
-
-				// kill the timeout
-				clearTimeout(loadTimeout);
+        loadXHR.onload = () => {
 
 				// save the text locally if installed
-				var gotText = loadAjax.responseText;
+				var gotText = loadXHR.responseText;
 				if (installed()) { localStorage["pastecard"] = gotText; }
 
 				// put it in the card, unlock it, and enable typing
 				d('pastecard').value = gotText;
 				locked = false;
 				d('pastecard').readOnly = false;
-			}
-		}
+        };
 
 		// set the timeout and start the load request
-		var loadTimeout = setTimeout(loadFailure, 5000);
-		loadAjax.send();
+        loadXHR.ontimeout = (e) => { loadFailure(); }
+        loadXHR.send();
 	}
 
 	// if not online, skip straight to load failure
@@ -91,7 +87,7 @@ function cancel() {
 
 function saveFailure() {
 	// kill the save request
-	saveAjax.abort();
+	saveXHR.abort();
 
 	// restore the attempted save text
 	d('pastecard').value = emergencySave;
@@ -123,18 +119,16 @@ function save() {
 	newText = encodeURIComponent(newText);
 
 	// prepare the save request
-	saveAjax.open('POST', 'edit.php', true);
-	saveAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	saveXHR.open('POST', 'edit.php', true);
+	saveXHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    saveXHR.timeout = 5000;
 
 	// when the request comes back successfully
-	saveAjax.onreadystatechange = function() {
-		if (saveAjax.readyState == 4 && saveAjax.status == 200) {
-
-			// kill the timeout
-			clearTimeout(saveTimeout);
+    saveXHR.onreadystatechange = () => {
+		if (saveXHR.readyState == 4 && saveXHR.status == 200) {
 
 			// get the text back and decode it
-			var retText = saveAjax.responseText;
+			var retText = saveXHR.responseText;
 			retText = decodeURIComponent(retText);
 
 			// if installed, save it locally
@@ -143,11 +137,11 @@ function save() {
 			// render and unlock the card, and enable typing
 			d('pastecard').value = retText;
 			locked = false;
-                        d('pastecard').readOnly = false;
+            d('pastecard').readOnly = false;
 		}
-	}
+	};
 
 	// set the timeout and start the save request, with a random number for cache busting
-	var saveTimeout = setTimeout(saveFailure, 5000);
-	saveAjax.send('card=' + newText + '&t=' + Math.random());
+    saveXHR.ontimeout = (e) => { saveFailure(); }
+	saveXHR.send('card=' + newText + '&t=' + Math.random());
 }
