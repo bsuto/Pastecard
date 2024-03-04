@@ -2,7 +2,6 @@ body {
 	background-color: #fff;
 	margin: 0;
 	text-align: center;
-	border-top: 1rem solid #004080;
 }
 
 #buttons {
@@ -23,20 +22,20 @@ textarea {
 	line-height: 1.25rem;
 	color: #111;
 	background-color: #fff;
-	border: 1px solid #fff;
+	border: none;
+	border-top: 1rem solid #004080;
 	border-radius: 0;
-	resize: none;
+	box-shadow: 0 0 0.25rem #aaa;
 	overflow: scroll;
-	transition: border 250ms ease-out;
 }
 
 textarea:hover {
-	border: 1px solid #ededed;
+	box-shadow: 0 0 0.25rem #888;
 }
 
 textarea:focus {
 	outline: none;
-	border: 1px solid #ddd;
+	box-shadow: 0 0 0.25rem #444;
 }
 
 input[type=button] {
@@ -54,9 +53,13 @@ input[type=button]:active {
 	background-color: #eee;
 }
 
-@media screen and (max-width: 736px) {
+@media only screen and (max-width: 736px) {
 	html, body {
 		height: 100%;
+	}
+
+	body {
+		border-top: 1rem solid #004080;
 	}
 
 	textarea {
@@ -64,11 +67,14 @@ input[type=button]:active {
 		max-width: 20rem;
 		height: 75%;
 		max-height: 33rem;
+		border-top: none;
+		box-shadow: none;
+		resize: none;
+	}
+	textarea:hover, textarea:focus {
+		box-shadow: none;
 	}
 
-	textarea:hover, textarea:focus {
-		border: 1px solid #fff;
-	}
 }
 
 @media (prefers-color-scheme: dark) {
@@ -79,16 +85,15 @@ input[type=button]:active {
 	textarea {
 		color: #ddd;
 		background-color: #000;
-		border: 1px solid #000;
+		box-shadow: 0 0 0.25rem #777;
 	}
 
 	textarea:hover {
-		border: 1px solid #1e1e1e;
-		background-color: #000;
+		box-shadow: 0 0 0.25rem #999;
 	}
 
 	textarea:focus {
-		border: 1px solid #2c2c2c;
+		box-shadow: 0 0 0.25rem #ccc;
 	}
 
 	input[type=button] {
@@ -103,8 +108,8 @@ input[type=button]:active {
 }
 
 @media screen and (max-width: 736px) and (prefers-color-scheme: dark) {
-	textarea:hover, textarea:focus {
-		border: 1px solid #000;
+	textarea, textarea:hover, textarea:focus {
+		box-shadow: none;
 		background-color: #000;
 	}
 }
