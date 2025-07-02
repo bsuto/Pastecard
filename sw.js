@@ -28,5 +28,5 @@ self.addEventListener('activate', event => {
         if (key !== cacheVersion) return caches.delete(key);
       }));
     }));
-  return self.clients(claim);
+  return self.clients.claim();
 });
