@@ -4,4 +4,6 @@ Pastecard is the digital equivalent of the back of your hand. It's accessible wi
 
 There's a [sample card](https://pastecard.net/demo/) (edits are lost on refresh) and a fuller [help page](https://pastecard.net/help/) for more information.
 
-Sign up for a hosted account at [pastecard.net](https://pastecard.net) or upload this repository as-is to your own hosting provider (SSL and PHP 5 required).
+## About this repository
+
+This is the equivalent of the Pastecard web app for a single user, from the 2018–2024 era. You should be able to upload this directory as-is to your host, as long as it has PHP 5 and an SSL certificate. **Note:** improvements and other changes to the Pastecard web app from 2025 onward will not necessarily be reflected here.
